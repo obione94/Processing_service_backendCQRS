@@ -5,7 +5,7 @@ const { EventEmitter } = require('events');
 const app = express();
 const PORT = 4000;
 const corsOptions = {
-  origin: 'https://obione94.github.io/flutterWeb',
+  origin: ['https://obione94.github.io/flutterWeb','https://api-gateaway-backend-cqrs.onrender.com'],
   credential:true,
   optionsSuccessStatus: 204,
 };
