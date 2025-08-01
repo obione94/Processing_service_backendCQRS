@@ -2,11 +2,15 @@
 const express = require('express');
 const cors = require('cors');
 const { EventEmitter } = require('events');
-
 const app = express();
 const PORT = 4000;
+const corsOptions = {
+  origin: 'https://obione94.github.io/flutterWeb',
+  credential:true,
+  optionsSuccessStatus: 204,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Gestionnaire global d'événements SSE
