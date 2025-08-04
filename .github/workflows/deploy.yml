@@ -73,9 +73,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: run migrate
-        run: npm run migrate:add-users
-
       - name: build
         run: npm run build
 
