@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  processing_service:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src               # Monte le code source local dans le container
+      - /app/node_modules            # Volume anonyme pour garder node_modules container
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    command: node dist/index.js
