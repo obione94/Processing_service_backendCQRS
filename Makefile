@@ -12,8 +12,12 @@ dev:
 	docker-compose up -d --build
 
 # Lancer le projet en production (Docker compose production)
-start:
+prod:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# Lancer le projet en production (Docker compose production)
+dev:
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up
 
 # Arrêter les services
 stop:

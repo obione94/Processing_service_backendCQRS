@@ -3,11 +3,9 @@ services:
   processing_service:
     env_file:
       - .env
-    environment:
-      - NODE_ENV=production
     volumes: []  # Pas de montage - code dans l'image seule
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}" # seulement à l'intérieur du réseau Docker "${PORT}"
     restart: always
     logging:
       driver: "json-file"
