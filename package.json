@@ -1,7 +1,7 @@
 {
-  "name": "api_gateaway",
+  "name": "processing_backend",
   "version": "1.0.0",
-  "description": "api_gateaway service for handling API Gateway, Command Service",
+  "description": "processing service  for handling  backend Command Service",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",

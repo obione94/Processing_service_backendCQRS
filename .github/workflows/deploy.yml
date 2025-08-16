@@ -3,6 +3,10 @@ name: Test, Coverage and Deploy backend processing_service
 on:
   push:
     branches: [main] # ou "master" si c'est ta branche par défaut
+  workflow_dispatch:
+
+env:
+  DOCKER_IMAGE: obione94/processing_service_backend_cqrs:latest
 
 jobs:
   build-and-test:
