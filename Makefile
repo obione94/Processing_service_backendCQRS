@@ -8,12 +8,20 @@ build:
 	npm run build
 
 # Démarrer les services via docker-compose
-dev:
+devv:
 	docker-compose up -d --build
+
+# Build TypeScript en local
+build-prod:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
 # Lancer le projet en production (Docker compose production)
 prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.prod.yml up --build -d
+
+# Lancer le projet en production (Docker compose production)
+dev:
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
 
 # Lancer le projet en production (Docker compose production)
 dev:

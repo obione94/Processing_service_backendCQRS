@@ -2,11 +2,10 @@ version: "3.8"
 
 services:
   processing_service:
-    env_file:
-      - .env
     build:
-      context: .
-      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV}
+        PORT: ${PORT}
     ports:
       - "${PORT}:${PORT}" # seulement à l'intérieur du réseau Docker "${PORT}"
     volumes:
@@ -15,3 +14,4 @@ services:
       - ./tsconfig.json:/app/tsconfig.json:ro  # Monter tsconfig pour dev TypeScript (en lecture seule)
       - ./package.json:/app/package.json:ro    # Monter package.json seul, si vraiment nécessaire (parfois pas utile)
     command: npx nodemon --watch src --ext ts,json --exec ts-node src/index.ts
+    

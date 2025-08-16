@@ -1,9 +1,11 @@
 version: "3.8"
 services:
   processing_service:
-    env_file:
-      - .env
-    volumes: []  # Pas de montage - code dans l'image seule
+    build:
+      args:
+        NODE_ENV: ${NODE_ENV}
+        PORT: ${PORT}
+    volumes: [] # Pas de montage - code dans l'image seule
     ports:
       - "${PORT}:${PORT}" # seulement à l'intérieur du réseau Docker "${PORT}"
     restart: always
@@ -13,7 +15,8 @@ services:
         max-size: "10m"
         max-file: "3"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/healthz"]
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/healthz"]
       interval: 30s
       timeout: 5s
       retries: 3
+    command: node dist/index.js
