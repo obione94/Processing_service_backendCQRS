@@ -8,11 +8,15 @@
     "test:coverage": "jest --coverage",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/index.ts"
+    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/index.ts",
+    "migrate:create": "cassandra-migrate create",
+    "migrate:up": "cd ./src/scripts/migrations && cassandra-migrate up -k mon_keyspace"
   },
   "dependencies": {
     "axios": "^1.5.0",
     "bcryptjs": "^3.0.2",
+    "cassandra-driver": "^4.8.0",
+    "cassandra-migrate": "^1.2.333",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",

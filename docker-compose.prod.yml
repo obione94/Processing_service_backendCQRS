@@ -20,3 +20,5 @@ services:
       timeout: 5s
       retries: 3
     command: node dist/index.js
+  cassandra:
+    container_name: cassandra

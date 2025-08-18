@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   processing_service:
+    container_name: processing_service
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,3 +9,58 @@ services:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
       - TAG=${TAG}
+      - DBHOST=cassandra
+      - DBKEYSPACE=mon_keyspace
+      - DBUSER=cassandra
+      - DBPASSWORD=password123
+    depends_on:
+      cassandra:
+        condition: service_healthy
+    networks:
+      - cassandra-net
+  cassandra:
+    build:
+      context: ./cassandra
+      dockerfile: Dockerfile
+    container_name: cassandra
+    hostname: cassandra
+    environment:
+      - CASSANDRA_AUTHENTICATOR=PasswordAuthenticator
+      - CASSANDRA_USER=cassandra
+      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_START_RPC=true # default
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0 # default
+      - CASSANDRA_LISTEN_ADDRESS=cassandra # default, use IP addr of container # = CASSANDRA_BROADCAST_ADDRESS
+      - CASSANDRA_CLUSTER_NAME=mycluster
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra
+    ports:
+      - "9042:9042" # port CQL pour client
+      - "7000" # port intra-cluster
+      - "7001" # port TLS intra-cluster (optionnel)
+      - "7199" # JMX monitoring
+    networks:
+      cassandra-net:
+        ipv4_address: 172.28.1.10
+    volumes:
+      - ./cassandra/cassandra-data:/var/lib/cassandra # Monte le dossier
+      - ./cassandra/cassandra.yaml:/etc/cassandra/cassandra.yaml
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "nodetool status"]
+      interval: 30s
+      start_period: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  cassandra-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  cassandra-data:

@@ -8,7 +8,7 @@ build:
 	npm run build
 
 # Démarrer les services via docker-compose
-devv:
+run:
 	docker-compose up -d --build
 
 # Build TypeScript en local
@@ -21,10 +21,10 @@ prod:
 
 # Lancer le projet en production (Docker compose production)
 dev:
-	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
 
 # Lancer le projet en production (Docker compose production)
-dev:
+rundev:
 	docker-compose -f docker-compose.yml -f docker-compose.override.yml up
 
 # Arrêter les services
@@ -58,8 +58,8 @@ docker-hub-deploy:
 docker-hub-run:
 	 +x run_docker_image.sh && ./run_docker_image.sh
 
-container:
-	 docker exec -it api_gateaway sh
+container-processing_service:
+	 docker exec -it processing_service sh
 
 # Nettoyer les fichiers de build locaux
 clean-dist:
