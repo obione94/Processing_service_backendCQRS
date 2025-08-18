@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS mon_keyspace.shopping_cart (userid text PRIMARY KEY,item_count int,last_update_timestamp timestamp);

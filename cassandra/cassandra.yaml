@@ -1,0 +1,34 @@
+
+
+cluster_name: 'mycluster'
+
+num_tokens: 256
+
+data_file_directories:
+  - /var/lib/cassandra/data
+
+commitlog_directory: /var/lib/cassandra/commitlog
+
+saved_caches_directory: /var/lib/cassandra/saved_caches
+
+commitlog_sync: periodic
+commitlog_sync_period_in_ms: 10000
+
+partitioner: org.apache.cassandra.dht.Murmur3Partitioner
+
+listen_address: 172.28.1.10
+
+rpc_address: 0.0.0.0
+
+broadcast_rpc_address: 172.28.1.10
+
+native_transport_port: 9042
+
+start_native_transport: true
+
+endpoint_snitch: GossipingPropertyFileSnitch
+
+seed_provider:
+  - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+    parameters:
+      - seeds: "172.28.1.10"
