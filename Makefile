@@ -7,10 +7,6 @@ COMPOSE_FILE=docker-compose.yml
 build:
 	npm run build
 
-# Démarrer les services via docker-compose
-run:
-	docker-compose up -d --build
-
 # Build TypeScript en local
 build-prod:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
@@ -22,10 +18,6 @@ prod:
 # Lancer le projet en production (Docker compose production)
 dev:
 	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
-
-# Lancer le projet en production (Docker compose production)
-rundev:
-	docker-compose -f docker-compose.yml -f docker-compose.override.yml up
 
 # Arrêter les services
 stop:
@@ -63,4 +55,4 @@ container-processing_service:
 
 # Nettoyer les fichiers de build locaux
 clean-dist:
-	rm -rf dist
+	sudo rm -Rf dist && rm -Rf cassandra/cassandra-data/*

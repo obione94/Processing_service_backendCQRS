@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Génère cassandra.yaml à partir du template et des variables d'environnement
+envsubst < /etc/cassandra/cassandra.yaml.template > /etc/cassandra/cassandra.yaml
+
 # Start Cassandra en arrière-plan
 cassandra -R -f &
 

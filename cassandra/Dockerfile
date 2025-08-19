@@ -2,6 +2,11 @@ FROM cassandra:4.1.3
 
 ENV LANG C.UTF-8
 
+USER root
+RUN apt-get update && apt-get install -y gettext && rm -rf /var/lib/apt/lists/*
+
+COPY cassandra.yaml.template /etc/cassandra/cassandra.yaml.template
+
 # Copier tous les scripts CQL dans le dossier dédié
 COPY cql-scripts/*.cql /docker-entrypoint-initdb.d/
 

@@ -6,13 +6,14 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - NODE_ENV=${NODE_ENV}
-      - PORT=${PORT}
-      - TAG=${TAG}
-      - DBHOST=cassandra
-      - DBKEYSPACE=mon_keyspace
-      - DBUSER=cassandra
-      - DBPASSWORD=password123
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=${PORT:-4000}
+      - TAG=${TAG:-dev}
+      - DBHOST=${DBHOST:-cassandra}
+      - DBKEYSPACE=${DBKEYSPACE:-mon_keyspace}
+      - DBUSER=${DBUSER:-cassandra}
+      - DBPASSWORD=${DBPASSWORD:-password123}
+      - DBDC=${DBDC:-dc1}
     depends_on:
       cassandra:
         condition: service_healthy
@@ -26,16 +27,16 @@ services:
     hostname: cassandra
     environment:
       - CASSANDRA_AUTHENTICATOR=PasswordAuthenticator
-      - CASSANDRA_USER=cassandra
-      - CASSANDRA_PASSWORD=password123
+      - CASSANDRA_USER=${CASSANDRA_USER:-cassandra}
+      - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD:-password123}
       - CASSANDRA_START_RPC=true # default
       - CASSANDRA_RPC_ADDRESS=0.0.0.0 # default
-      - CASSANDRA_LISTEN_ADDRESS=cassandra # default, use IP addr of container # = CASSANDRA_BROADCAST_ADDRESS
-      - CASSANDRA_CLUSTER_NAME=mycluster
-      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-      - CASSANDRA_DC=dc1
-      - CASSANDRA_SEEDS=cassandra
-      - CASSANDRA_BROADCAST_ADDRESS=cassandra
+      - CASSANDRA_LISTEN_ADDRESS=${CASSANDRA_LISTEN_ADDRESS:-cassandra} # default, use IP addr of container
+      - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME:-mycluster}
+      - CASSANDRA_ENDPOINT_SNITCH=${CASSANDRA_ENDPOINT_SNITCH:-GossipingPropertyFileSnitch}
+      - CASSANDRA_DC=${CASSANDRA_DC:-dc1}
+      - CASSANDRA_SEEDS=${CASSANDRA_SEEDS:-cassandra}
+      - CASSANDRA_BROADCAST_ADDRESS=${CASSANDRA_BROADCAST_ADDRESS:-cassandra}
     ports:
       - "9042:9042" # port CQL pour client
       - "7000" # port intra-cluster
@@ -46,7 +47,6 @@ services:
         ipv4_address: 172.28.1.10
     volumes:
       - ./cassandra/cassandra-data:/var/lib/cassandra # Monte le dossier
-      - ./cassandra/cassandra.yaml:/etc/cassandra/cassandra.yaml
     restart: on-failure
     healthcheck:
       test: ["CMD-SHELL", "nodetool status"]

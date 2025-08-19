@@ -1,5 +1,3 @@
-
-
 cluster_name: 'mycluster'
 
 num_tokens: 256

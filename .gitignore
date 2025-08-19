@@ -18,3 +18,4 @@ yarn-error.log*
 # Ignorer fichiers temporaires
 *.swp
 .env
+cassandra/cassandra-data
