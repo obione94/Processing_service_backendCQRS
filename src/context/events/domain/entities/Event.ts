@@ -9,10 +9,5 @@ export interface Event {
   event_type: string; // Nature (ex: 'create', 'update', 'delete')
   event_data: string; // Données métier, souvent au format JSON sérialisé
   event_priority: number; // Priorité de traitement
-  event_version: number; // Version de l’événement pour l’agrégat
   event_metadata: Record<string, string>; // Métadonnées additionnelles
-  event_retries: number; // Nombre de tentatives de traitement
-  event_start: Date | null; // Début du traitement ou de la prise en compte
-  event_end: Date | null; // Fin du traitement (ou null)
-  event_timestamp: Date; // Timestamp de l’événement lui-même
 }

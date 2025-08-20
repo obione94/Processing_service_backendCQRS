@@ -1,30 +1,18 @@
 import { EventAggregateRoot } from "../domain/aggregates/EventAggregateRoot";
 import { Event } from "../domain/entities/Event";
-import { createEvent } from '../infrastructure/repositories/EventRepositories';
-
+import { EventVersion } from "../domain/valueObjects/EventVersion";
+import { CassandraEventRepositories } from "../infrastructure/repositories/CassandraEventRepositories";
 export const creationService = async (event:Event): Promise<void> => {
     try {
-        console.log(event);
-
-        const aggregateRoot:EventAggregateRoot = new EventAggregateRoot(
-            event.id,
-            event.aggregate_id,
-            event.event_name,
-            event.event_state,
-            event.event_type,
-            event.event_data,
-            event.event_priority,
-            event.event_version,
-            event.event_metadata,
-            event.event_retries,
-            event.event_start,
-            event.event_end,
-            event.event_timestamp
+        const cassandraEventRepositories:CassandraEventRepositories = new CassandraEventRepositories();
+        const eventVersion = await EventVersion(event.aggregate_id,cassandraEventRepositories);
+        const generateEvent:EventAggregateRoot = await EventAggregateRoot.generate(
+            event,
+            eventVersion
         );
-
-        const result = await createEvent(aggregateRoot);
-        console.log(result);
+        cassandraEventRepositories.createEvent(generateEvent);
     } catch (error) {
-        
+        console.error(error);
+        throw new Error('Erreur lors de la création de l\'event');
     }
 };

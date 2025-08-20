@@ -96,3 +96,7 @@ INSERT INTO events (
   null,
   toTimestamp(now())
 );
+
+
+
+mettre en place fixture pour tes fonctionnels
